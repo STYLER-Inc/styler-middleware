@@ -59,16 +59,11 @@ coverage: ## check code coverage quickly with the default Python
 	coverage html
 	$(BROWSER) htmlcov/index.html
 
-docs: ## generate Sphinx HTML documentation, including API docs
-	rm -f docs/styler_middleware.rst
-	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ styler_middleware
-	$(MAKE) -C docs clean
-	$(MAKE) -C docs html
-	$(BROWSER) docs/_build/html/index.html
-
-release: dist ## package and upload a release
+release-prod: dist ## package and upload a release
 	twine upload dist/*
+
+release-test: dist ## package and upload a release
+	twine upload --repository testpypi dist/*
 
 dist: clean ## builds source and wheel package
 	python setup.py sdist

@@ -1,11 +1,23 @@
 #!/usr/bin/env python
 
-"""The setup script."""
+"""
+===============================
+HtmlTestRunner
+===============================
+
+
+.. image:: https://img.shields.io/pypi/v/styler_middleware.svg
+        :target: https://pypi.python.org/pypi/styler_middleware
+
+Utility middlewares for aiohttp web apps.
+
+
+Links:
+---------
+* `Github <https://github.com/STYLER-Inc/styler-middleware>`_
+"""
 
 from setuptools import setup, find_packages
-
-with open('README.md') as readme_file:
-    readme = readme_file.read()
 
 requirements = ['aiohttp']
 
@@ -28,7 +40,7 @@ setup(
     description="Utility middlewares for aiohttp web apps.",
     install_requires=requirements,
     license="MIT license",
-    long_description=readme,
+    long_description=__doc__,
     include_package_data=True,
     keywords='styler_middleware middleware aiohttp',
     name='styler_middleware',
