@@ -16,7 +16,8 @@ def middleware():
     yield handle_invalid_json(
         generic_message='msg',
         status_code=333,
-        methods={'POST', 'PUT', 'PATCH'})
+        methods={'POST', 'PUT', 'PATCH'},
+        exclude={'/exclude/this/path'})
 
 
 def test_generator():
@@ -28,6 +29,17 @@ def test_generator():
 def test_normal_flow(middleware):
     request = Mock()
     request.method = 'GET'
+    handler = AsyncMock(return_value='response')
+
+    resp = asyncio.run(middleware(request, handler))
+
+    assert resp == 'response'
+
+
+def test_exclude_path(middleware):
+    request = Mock()
+    request.method = 'POST'
+    request.path = '/exclude/this/path'
     handler = AsyncMock(return_value='response')
 
     resp = asyncio.run(middleware(request, handler))
