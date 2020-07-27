@@ -28,15 +28,13 @@ test_requirements = ['pytest>=3', ]
 setup(
     author="Bruno Toshio Sugano",
     author_email='bruno.sugano@styler.link',
-    python_requires='>=3.6',
+    python_requires='>=3.8',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
     ],
     description="Utility middlewares for aiohttp web apps.",
