@@ -14,7 +14,6 @@ import pytest
 def middleware():
     yield handle_exceptions(generic_message='msg', status_code=333)
 
-
 def test_generator():
     mid = handle_exceptions(generic_message='msg', status_code=333)
 
@@ -50,3 +49,18 @@ def test_exception(mocked_log, mocked_resp, middleware):
 
     mocked_log.assert_called_once()
     mocked_resp.assert_called_with({'error': 'msg'}, status=333)
+
+
+@patch('aiohttp.web.json_response')
+@patch('logging.exception')
+def test_error_reporting(mocked_log, mocked_resp):
+    request = Mock()
+    handler = AsyncMock(side_effect=ValueError('msg'))
+    error_reporter = Mock()
+    middleware = handle_exceptions(generic_message='msg', status_code=333, error_handler=error_reporter)
+
+    _ = asyncio.run(middleware(request, handler))
+
+    mocked_log.assert_called_once()
+    mocked_resp.assert_called_with({'error': 'msg'}, status=333)
+    error_reporter.assert_called_once()

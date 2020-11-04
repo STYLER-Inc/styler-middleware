@@ -8,7 +8,8 @@ from aiohttp import web
 
 def handle_exceptions(
         generic_message='An error has occurred',
-        status_code=500):
+        status_code=500,
+        error_handler=None):
     """ Generate a middleware that logs unexpected exceptions
         and returns a JSON response.
 
@@ -18,6 +19,7 @@ def handle_exceptions(
         Args:
             generic_message: The message that will be send as an error
             status_code: The HTTP status code (default = 500)
+            error_handler: Callable(request, exception) to be executed when an exception occurs
     """
     @web.middleware
     async def middleware(request, handler):
@@ -28,6 +30,8 @@ def handle_exceptions(
             raise
         except Exception as ex:
             message = str(ex)
+            if error_handler:
+                error_handler(request, ex)
             logging.exception('Error: %s', message)
             return web.json_response(
                 {'error': generic_message},
